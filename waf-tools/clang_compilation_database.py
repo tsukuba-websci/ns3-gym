@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 """
 Writes the c and cpp compile commands into build/compile_commands.json
 see http://clang.llvm.org/docs/JSONCompilationDatabase.html
@@ -47,7 +50,7 @@ def write_compilation_database(ctx):
         root = json.load(database_file)
     except IOError:
         root = []
-    except ValueError:  # "No JSON object could be decoded"対策
+    except ValueError:  # "No JSON object could be decoded"
         root = []
     clang_db = dict((x["file"], x) for x in root)
     for task in getattr(ctx, "clang_compilation_database_tasks", []):
