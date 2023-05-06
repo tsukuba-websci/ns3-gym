@@ -17,6 +17,7 @@ RUN ./waf configure --enable-examples && ./waf build
 
 # Install ns3gym
 RUN pip install --user ./src/opengym/model/ns3gym
+RUN pip install -U protobuf~=3.20.0
 
 # Run ns3gym
 CMD ["python", "./scratch/opengym/simple_test.py"]
