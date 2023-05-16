@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import gym
-import argparse
 import ns3gym
+from ns3gym import ns3env
 
 __author__ = "Piotr Gawlowicz"
 __copyright__ = "Copyright (c) 2018, Technische Universität Berlin"
