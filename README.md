@@ -1,3 +1,4 @@
+[論文](https://github.com/tsukuba-websci/poet_ns3/blob/main/docs/ns3-gym_reference.pdf)
 ns3-gym
 ============
 
