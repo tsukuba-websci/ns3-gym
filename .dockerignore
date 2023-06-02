@@ -10,14 +10,12 @@ AUTHORS
 CHANGES.html
 LICENSE
 RELEASE_NOTES
-VERSION
 
 # log files
 *.log
 *.out
 
 CHANGELOG.html
-VERSION
 RELEASE_NOTES
 
 # dotfiles
