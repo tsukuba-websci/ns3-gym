@@ -1,0 +1,29 @@
+# documentation
+docs/
+doc/
+*.txt
+*.md
+*.html
+
+# other documentation
+AUTHORS
+CHANGES.html
+LICENSE
+RELEASE_NOTES
+VERSION
+
+# log files
+*.log
+*.out
+
+CHANGELOG.html
+VERSION
+RELEASE_NOTES
+
+# dotfiles
+.*
+
+# Others
+.git/
+.gitignore
+.gitmodules
