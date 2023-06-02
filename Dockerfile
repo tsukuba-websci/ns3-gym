@@ -1,13 +1,13 @@
 FROM ubuntu:20.04
 
 # Install Install all required dependencies required by ns-3
-RUN apt-get update && apt-get install -y gcc g++ python3-pip python git
+RUN apt-get update && apt-get install -y gcc g++ python3-pip python git && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install ZMQ and Protocol Buffers libs
-RUN apt-get update && apt-get install -y libzmq5 libzmq3-dev libprotobuf-dev protobuf-compiler
+RUN apt-get update && apt-get install -y libzmq5 libzmq3-dev libprotobuf-dev protobuf-compiler && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# clone ns3-gym repo
-RUN git clone --depth 1 https://github.com/tsukuba-websci/ns3-gym.git
+# COPY ns3-gym
+COPY . /ns3-gym
 
 # Change WORKDIR
 WORKDIR /ns3-gym
