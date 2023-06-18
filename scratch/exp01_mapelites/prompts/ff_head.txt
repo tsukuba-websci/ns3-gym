@@ -1,0 +1,5 @@
+### Function ###
+def FastRetransmit_FastRecovery_Algorithm(ssThresh: int, cWnd: int, segmentSize: int, segmentsAcked: int, bytesInFlight: int):
+    ''' Return new_cWnd and new_ssThresh '''
+    # Be careful not to increase the value of new_cWnd and new_ssThresh too much.
+    
