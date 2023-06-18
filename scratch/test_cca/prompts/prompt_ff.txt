@@ -1,0 +1,12 @@
+### Reference ###
+'''
+Fast Retransmit is described as a mechanism used by TCP to detect and recover from packet loss. 
+When a TCP sender sends a packet, it expects to receive an acknowledgment (ACK) from the receiver indicating that the packet has been received successfully. If the sender receives three duplicate ACKs for the same packet, it assumes that the packet has been lost and performs a retransmission of that packet without waiting for the retransmission timer to expire. This is known as Fast Retransmit.
+Fast Retransmit allows TCP to quickly recover from packet loss without waiting for the retransmission timer to expire, which can take several seconds. By detecting lost packets through duplicate ACKs and performing fast retransmissions, TCP can maintain high throughput and avoid network congestion.
+Overall, Fast Retransmit is an important mechanism used by TCP to detect and recover from packet loss quickly and efficiently. By performing fast retransmissions based on duplicate ACKs, TCP can maintain optimal performance while avoiding network congestion caused by lost packets.
+Fast Recovery is described as a mechanism used by TCP to recover from packet loss when it receives duplicate acknowledgments (ACKs) for the same packet. 
+When a TCP sender detects packet loss through the receipt of three duplicate ACKs, it performs a retransmission of the lost packet without waiting for the retransmission timer to expire. After this, TCP enters Fast Recovery mode where it reduces its congestion window (cwnd) by half and enters a "recovery" state where it sends new packets but does not increase its cwnd until all lost packets have been successfully retransmitted.
+While in Fast Recovery mode, if TCP receives an ACK for a packet that was previously assumed lost, it increments its cwnd by one Maximum Segment Size (MSS) and continues sending new packets. This helps TCP recover from congestion more quickly than if it were to wait for all lost packets to be retransmitted before increasing its cwnd.
+Once all lost packets have been successfully retransmitted and acknowledged, TCP exits Fast Recovery mode and returns to Congestion Avoidance mode where it increases its cwnd linearly.
+Overall, Fast Recovery is an important mechanism used by TCP to recover from packet loss and maintain high throughput while avoiding network congestion. By reducing its cwnd and entering a recovery state after detecting lost packets with Fast Retransmit, TCP can quickly recover from congestion and continue transmitting data at an optimal rate.
+'''

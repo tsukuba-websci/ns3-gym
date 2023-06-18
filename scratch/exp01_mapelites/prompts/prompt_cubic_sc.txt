@@ -1,0 +1,7 @@
+### Reference ###
+'''
+Slow Start is the initial phase of TCP congestion control where the sender gradually increases its window size until it detects congestion. 
+CUBIC uses a cubic function to increase its window size during slow-start, which allows it to achieve higher throughput than linear functions used by other TCP congestion control algorithms. The cubic function used by CUBIC is designed to be more aggressive in increasing the window size at the beginning of slow-start and then gradually slowing down as the window size gets larger. This approach allows CUBIC to quickly ramp up its sending rate while still being responsive to other flows in the network.
+Congestion Avoidance is the phase of TCP congestion control where the sender maintains a stable window size to avoid causing congestion. 
+CUBIC uses a concave region to adjust its window size during congestion avoidance, which allows it to maintain fairness with other TCP flows while still achieving high throughput. The concave region used by CUBIC is designed to be less aggressive in increasing the window size than during slow-start, which helps prevent congestion from occurring. Additionally, CUBIC uses a multiplicative decrease function to reduce its window size when it detects congestion and a fast convergence mechanism to quickly recover from losses.
+'''
