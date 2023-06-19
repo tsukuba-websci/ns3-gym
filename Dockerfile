@@ -13,11 +13,13 @@ COPY . /ns3-gym
 WORKDIR /ns3-gym
 
 # Configure and build ns-3 project
-RUN ./waf configure --enable-examples && ./waf build
+RUN ./waf configure && ./waf build
 
 # Install ns3gym
 RUN pip install --user ./src/opengym/model/ns3gym
 RUN pip install -U protobuf~=3.20.0
 
+WORKDIR /ns3-gym/scratch/rl-tcp
+
 # Run ns3gym
-CMD [ "./waf", "--run", "'opengym'" ]
+CMD [ "python3", "test_tcp.py" ]
