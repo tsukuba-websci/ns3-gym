@@ -22,4 +22,4 @@ RUN pip install -U protobuf~=3.20.0
 WORKDIR /ns3-gym/scratch/rl-tcp
 
 # Run ns3gym
-CMD [ "python3", "tcp_newreno.py" ]
+CMD [ "python3", "test_tcp.py" ]
