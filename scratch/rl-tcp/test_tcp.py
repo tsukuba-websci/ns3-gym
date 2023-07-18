@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import logging
 from ns3gym import ns3env
 from tcp_timebased import TcpTimeBase
 from tcp_eventbased import TcpEventBase
@@ -11,6 +12,14 @@ __copyright__ = "Copyright (c) 2018, Technische Universität Berlin"
 __version__ = "0.1.0"
 __email__ = "gawlowicz@tkn.tu-berlin.de"
 
+
+logging.basicConfig(
+    format="%(asctime)s %(levelname)-8s %(message)s",
+    level=logging.INFO,
+    datefmt="%Y-%m-%d %H:%M:%S",
+    filename="output.log",
+    filemode="w",
+)
 
 parser = argparse.ArgumentParser(description="Start simulation script on/off")
 parser.add_argument(
@@ -46,8 +55,10 @@ env.reset()
 
 ob_space = env.observation_space
 ac_space = env.action_space
-print("Observation space: ", ob_space, ob_space.dtype)
-print("Action space: ", ac_space, ac_space.dtype)
+
+logging.info("Observation space: %s, %s", ob_space, ob_space.dtype)
+logging.info("Action space: %s, %s", ac_space, ac_space.dtype)
+
 
 stepIdx = 0
 currIt = 0
@@ -76,14 +87,12 @@ get_agent.ob_space = ob_space
 get_agent.ac_space = ac_space
 
 try:
+    print("step,ssThresh,windowSize")
     while True:
-        print("Start iteration: ", currIt)
         obs = env.reset()
         reward = 0
         done = False
         info = None
-        print("Step: ", stepIdx)
-        print("---obs: ", obs)
 
         # get existing agent of create new TCP agent if needed
         tcpAgent = get_agent(obs)
@@ -91,11 +100,13 @@ try:
         while True:
             stepIdx += 1
             action = tcpAgent.get_action(obs, reward, done, info)
-            print("---action: ", action)
+            print(f"{stepIdx},{action[0]},{action[1]}")
 
-            print("Step: ", stepIdx)
             obs, reward, done, info = env.step(action)
-            print("---obs, reward, done, info: ", obs, reward, done, info)
+            logging.info("Step: %s", stepIdx)
+            logging.info(
+                "obs: %s, reward: %s, done: %s, info: %s", obs, reward, done, info
+            )
 
             # get existing agent of create new TCP agent if needed
             tcpAgent = get_agent(obs)
@@ -111,7 +122,7 @@ try:
             break
 
 except KeyboardInterrupt:
-    print("Ctrl-C -> Exit")
+    logging.warn("Ctrl-C received, exiting...")
 finally:
     env.close()
-    print("Done")
+    logging.info("Simulation done.")
