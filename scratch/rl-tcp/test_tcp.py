@@ -4,8 +4,8 @@
 import argparse
 import logging
 from ns3gym import ns3env
-from tcp_base import TcpTimeBased
-from tcp_newreno import TcpNewReno
+from tcp_timebased import TcpTimeBase
+from tcp_eventbased import TcpEventBase
 
 __author__ = "Piotr Gawlowicz"
 __copyright__ = "Copyright (c) 2018, Technische Universität Berlin"
@@ -55,8 +55,10 @@ env.reset()
 
 ob_space = env.observation_space
 ac_space = env.action_space
+
 logging.info("Observation space: %s, %s", ob_space, ob_space.dtype)
 logging.info("Action space: %s, %s", ac_space, ac_space.dtype)
+
 
 stepIdx = 0
 currIt = 0
@@ -69,10 +71,10 @@ def get_agent(obs):
     if tcpAgent is None:
         if tcpEnvType == 0:
             # event-based = 0
-            tcpAgent = TcpNewReno()
+            tcpAgent = TcpEventBase()
         else:
             # time-based = 1
-            tcpAgent = TcpTimeBased()
+            tcpAgent = TcpTimeBase()
         tcpAgent.set_spaces(get_agent.ob_space, get_agent.ac_space)
         get_agent.tcpAgents[socketUuid] = tcpAgent
 
