@@ -14,36 +14,43 @@ __email__ = "gawlowicz@tkn.tu-berlin.de"
 
 
 logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
+    format="%(asctime)s %(levelname)-8s %(message)s",
     level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S',
-    filename='output.log',
-    filemode='w'
+    datefmt="%Y-%m-%d %H:%M:%S",
+    filename="output.log",
+    filemode="w",
 )
 
-parser = argparse.ArgumentParser(description='Start simulation script on/off')
-parser.add_argument('--start',
-                    type=int,
-                    default=1,
-                    help='Start ns-3 simulation script 0/1, Default: 1')
-parser.add_argument('--iterations',
-                    type=int,
-                    default=1,
-                    help='Number of iterations, Default: 1')
+parser = argparse.ArgumentParser(description="Start simulation script on/off")
+parser.add_argument(
+    "--start", type=int, default=1, help="Start ns-3 simulation script 0/1, Default: 1"
+)
+parser.add_argument(
+    "--iterations", type=int, default=1, help="Number of iterations, Default: 1"
+)
 args = parser.parse_args()
 startSim = bool(args.start)
 iterationNum = int(args.iterations)
 
 port = 5555
-simTime = 10 # seconds
+simTime = 10  # seconds
 stepTime = 0.5  # seconds
 seed = 12
-simArgs = {"--duration": simTime,}
+simArgs = {
+    "--duration": simTime,
+}
 debug = False
 
-env = ns3env.Ns3Env(port=port, stepTime=stepTime, startSim=startSim, simSeed=seed, simArgs=simArgs, debug=debug)
+env = ns3env.Ns3Env(
+    port=port,
+    stepTime=stepTime,
+    startSim=startSim,
+    simSeed=seed,
+    simArgs=simArgs,
+    debug=debug,
+)
 # simpler:
-#env = ns3env.Ns3Env()
+# env = ns3env.Ns3Env()
 env.reset()
 
 ob_space = env.observation_space
@@ -53,6 +60,7 @@ logging.info("Action space: %s, %s", ac_space, ac_space.dtype)
 
 stepIdx = 0
 currIt = 0
+
 
 def get_agent(obs):
     socketUuid = obs[0]
@@ -69,6 +77,7 @@ def get_agent(obs):
         get_agent.tcpAgents[socketUuid] = tcpAgent
 
     return tcpAgent
+
 
 # initialize variable
 get_agent.tcpAgents = {}
@@ -93,7 +102,9 @@ try:
 
             obs, reward, done, info = env.step(action)
             logging.info("Step: %s", stepIdx)
-            logging.info("obs: %s, reward: %s, done: %s, info: %s", obs, reward, done, info)
+            logging.info(
+                "obs: %s, reward: %s, done: %s, info: %s", obs, reward, done, info
+            )
 
             # get existing agent of create new TCP agent if needed
             tcpAgent = get_agent(obs)
