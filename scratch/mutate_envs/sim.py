@@ -8,10 +8,11 @@ from tcp_newreno import TcpNewReno
 
 # @param [env, agent] EA
 # @return integer スループット
-
+# TODO: 全体的にリファクタ.ひとまず動く状態
 
 def simulate(EA):
     environment = EA[0]
+    agent = EA[1]
     startSim = True
     iterationNum = 1
 
@@ -60,19 +61,19 @@ def simulate(EA):
             # print("---obs: ", obs)
 
             # get existing agent of create new TCP agent if needed
-            tcpAgent = get_agent(obs)
+            tcpAgent = get_agent(obs, agent)
 
             while True:
                 stepIdx += 1
                 action = tcpAgent.get_action(obs, reward, done, info)
                 # print("---action: ", action)
 
-                print("Step: ", stepIdx)
+                # print("Step: ", stepIdx)
                 obs, reward, done, info = env.step(action)
                 # print("---obs, reward, done, info: ", obs, reward, done, info)
 
                 # get existing agent of create new TCP agent if needed
-                tcpAgent = get_agent(obs)
+                tcpAgent = get_agent(obs, agent)
 
                 if done:
                     stepIdx = 0
@@ -88,21 +89,14 @@ def simulate(EA):
         print("Ctrl-C -> Exit")
     finally:
         env.close()
-        return True
-        print("Done")
+        return obs
 
 
-def get_agent(obs):
+def get_agent(obs , agent):
     socketUuid = obs[0]
-    tcpEnvType = obs[1]
     tcpAgent = get_agent.tcpAgents.get(socketUuid, None)
     if tcpAgent is None:
-        if tcpEnvType == 0:
-            # event-based = 0
-            tcpAgent = TcpNewReno()
-        else:
-            # time-based = 1
-            tcpAgent = TcpTimeBased()
+        tcpAgent = agent
         tcpAgent.set_spaces(get_agent.ob_space, get_agent.ac_space)
         get_agent.tcpAgents[socketUuid] = tcpAgent
 

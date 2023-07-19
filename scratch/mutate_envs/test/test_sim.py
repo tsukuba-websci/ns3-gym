@@ -1,7 +1,8 @@
+from tcp_newreno import TcpNewReno
 from sim import simulate
 
 
-def test_env_reproduce():
+def test_sim():
     env = {
         'n_leaf': 3,
         'error_rate': 0.3,
@@ -12,8 +13,9 @@ def test_env_reproduce():
         'cross_traffic_data_rate': "6Mbps"
     }
 
-    agent = 'dummy_agent'
+    agent = TcpNewReno()
 
     EA = [env, agent]
-
-    assert simulate(EA)
+    obs = simulate(EA)
+# obs[5]はcwnd
+    assert bool(obs[5]) == True

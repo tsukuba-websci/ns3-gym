@@ -4,8 +4,8 @@ from sim import simulate
 
 def eligible_to_reproduce(EA):
     condition = 10000
-    result = simulate(EA)
-    if result > condition:
+    obs = simulate(EA)
+    if obs[5] > condition:
         return True
     else:
         return False
