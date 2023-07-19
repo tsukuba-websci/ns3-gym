@@ -1,11 +1,10 @@
-# @param List[env, agent] EA_list environmentとagentのリスト
-# @return List[env, agent]
-
 # memo: 現在は親と同じ数の子を作成するようにしている.表の高い親のみを重点的に複製するなどのやり方もありそう
 from env_params import env_params
 import random
 from params_utl import to_number, to_string
 
+# @param List[env, agent] EA_list environmentとagentのリスト
+# @return List[env, agent]
 def env_reproduce(EA_list):
     child_list = []
     for EA in EA_list:
@@ -15,6 +14,8 @@ def env_reproduce(EA_list):
     return child_list
 
 # 各プロパティをstep、最大値、最小値に基づきmutateさせる。
+# @param [env, agent] EA
+# @return [env, agent]
 def mutate(EA):
     enviroments = EA[0]
     enviroments = to_number(enviroments)

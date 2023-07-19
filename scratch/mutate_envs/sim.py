@@ -6,7 +6,7 @@ from ns3gym import ns3env
 from tcp_base import TcpTimeBased
 from tcp_newreno import TcpNewReno
 
-def main():
+def simulate():
     parser = argparse.ArgumentParser(description='Start simulation script on/off')
     parser.add_argument('--start',
                         type=int,
