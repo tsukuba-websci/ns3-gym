@@ -8,30 +8,38 @@ from tcp_newreno import TcpNewReno
 
 # @param [env, agent] EA
 # @return integer スループット
+
+
 def simulate():
-    parser = argparse.ArgumentParser(description='Start simulation script on/off')
-    parser.add_argument('--start',
-                        type=int,
-                        default=1,
-                        help='Start ns-3 simulation script 0/1, Default: 1')
-    parser.add_argument('--iterations',
-                        type=int,
-                        default=1,
-                        help='Number of iterations, Default: 1')
-    args = parser.parse_args()
-    startSim = bool(args.start)
-    iterationNum = int(args.iterations)
+    startSim = True
+    iterationNum = 1
 
     port = 5555
-    simTime = 10 # seconds
-    stepTime = 0.5  # seconds
+    simTime = 5  # seconds
+    stepTime = 0.2  # seconds
     seed = 12
-    simArgs = {"--duration": simTime,}
+    n_leaf = 2
+    error_rate = 0.0
+    bottleneck_bandwidth = "10Mbps"
+    bottleneck_delay = "45ms"
+    access_bandwidth = "10Mbps"
+    access_delay = "45ms"
+    cross_traffic_data_rate = "6Mbps"
+    simArgs = {"--duration": simTime,
+               "--nLeaf": n_leaf,
+               "--error_p": error_rate,
+               "--bottleneck_bandwidth": bottleneck_bandwidth,
+               "--bottleneck_delay": bottleneck_delay,
+               "--access_bandwidth": access_bandwidth,
+               "--access_delay": access_delay,
+               "cross_traffic_data_rate": cross_traffic_data_rate
+               }
     debug = False
 
-    env = ns3env.Ns3Env(port=port, stepTime=stepTime, startSim=startSim, simSeed=seed, simArgs=simArgs, debug=debug)
+    env = ns3env.Ns3Env(port=port, stepTime=stepTime, startSim=startSim,
+                        simSeed=seed, simArgs=simArgs, debug=debug)
     # simpler:
-    #env = ns3env.Ns3Env()
+    # env = ns3env.Ns3Env()
     env.reset()
 
     ob_space = env.observation_space
@@ -54,8 +62,8 @@ def simulate():
             reward = 0
             done = False
             info = None
-            print("Step: ", stepIdx)
-            print("---obs: ", obs)
+            # print("Step: ", stepIdx)
+            # print("---obs: ", obs)
 
             # get existing agent of create new TCP agent if needed
             tcpAgent = get_agent(obs)
@@ -63,11 +71,11 @@ def simulate():
             while True:
                 stepIdx += 1
                 action = tcpAgent.get_action(obs, reward, done, info)
-                print("---action: ", action)
+                # print("---action: ", action)
 
                 print("Step: ", stepIdx)
                 obs, reward, done, info = env.step(action)
-                print("---obs, reward, done, info: ", obs, reward, done, info)
+                # print("---obs, reward, done, info: ", obs, reward, done, info)
 
                 # get existing agent of create new TCP agent if needed
                 tcpAgent = get_agent(obs)
@@ -86,7 +94,9 @@ def simulate():
         print("Ctrl-C -> Exit")
     finally:
         env.close()
+        return True
         print("Done")
+
 
 def get_agent(obs):
     socketUuid = obs[0]
@@ -103,3 +113,7 @@ def get_agent(obs):
         get_agent.tcpAgents[socketUuid] = tcpAgent
 
     return tcpAgent
+
+
+if __name__ == "__main__":
+    simulate()
