@@ -10,7 +10,8 @@ from tcp_newreno import TcpNewReno
 # @return integer スループット
 
 
-def simulate():
+def simulate(EA):
+    environment = EA[0]
     startSim = True
     iterationNum = 1
 
@@ -18,21 +19,14 @@ def simulate():
     simTime = 5  # seconds
     stepTime = 0.2  # seconds
     seed = 12
-    n_leaf = 2
-    error_rate = 0.0
-    bottleneck_bandwidth = "10Mbps"
-    bottleneck_delay = "45ms"
-    access_bandwidth = "10Mbps"
-    access_delay = "45ms"
-    cross_traffic_data_rate = "6Mbps"
     simArgs = {"--duration": simTime,
-               "--nLeaf": n_leaf,
-               "--error_p": error_rate,
-               "--bottleneck_bandwidth": bottleneck_bandwidth,
-               "--bottleneck_delay": bottleneck_delay,
-               "--access_bandwidth": access_bandwidth,
-               "--access_delay": access_delay,
-               "cross_traffic_data_rate": cross_traffic_data_rate
+               "--nLeaf": environment['n_leaf'],
+               "--error_p": environment['error_rate'],
+               "--bottleneck_bandwidth": environment['bottleneck_bandwidth'],
+               "--bottleneck_delay": environment['bottleneck_delay'],
+               "--access_bandwidth": environment['access_bandwidth'],
+               "--access_delay": environment['access_delay'],
+               "cross_traffic_data_rate": environment['cross_traffic_data_rate']
                }
     debug = False
 
