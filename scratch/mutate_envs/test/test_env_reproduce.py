@@ -14,7 +14,7 @@ def test_env_reproduce():
         'bottleneck_delay': '50ms',
     }
 
-    agent = 'agent'
+    agent = 'dummy_agent'
 
     EA = [[env_1, agent], [env_2, agent]]
     # 参照渡しだと、EAの値が変わってしまう。また、二次元配列なのでdeepcopy()する必要あり

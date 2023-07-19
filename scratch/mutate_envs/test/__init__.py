@@ -1,1 +1,1 @@
-# pytestが走らせるために必要なファイル.https://zenn.dev/pesuchin/articles/9573476d53d234f09433
+# pytestを走らせるために必要なファイル.https://zenn.dev/pesuchin/articles/9573476d53d234f09433
