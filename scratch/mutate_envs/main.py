@@ -1,7 +1,7 @@
 from env_reproduce import env_reproduce
 # @param List[env, agent] EA_list environmentとagentのリスト
 # @return List[env, agent]
-def main(EA_list):
+def mutate_env(EA_list):
     parent_list = []
 
     for EA in EA_list:
@@ -14,6 +14,3 @@ def main(EA_list):
     EA_list.append(child_list)
 
     return EA_list
-
-if __name__ == "__main__":
-    main()

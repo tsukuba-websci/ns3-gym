@@ -16,11 +16,11 @@ def env_reproduce(EA_list):
 
 # 各プロパティをstep、最大値、最小値に基づきmutateさせる。
 def mutate(EA):
-    enviroments = to_number(enviroments)
-
     enviroments = EA[0]
+    enviroments = to_number(enviroments)
     env_keys = list(enviroments.keys())
     agent = EA[1]
+
     for env in env_keys:
         random_num = random.randrange(1)
 
@@ -32,6 +32,6 @@ def mutate(EA):
             if (enviroments[env] + env_params[env]['mutation_step'] > env_params[env]['max_value']):
                 break
             enviroments[env] += env_params[env]['mutation_step']
-
     enviroments = to_string(enviroments)
+
     return [enviroments, agent]
