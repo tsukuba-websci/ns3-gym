@@ -8,7 +8,7 @@ from params_utl import to_number, to_string
 def env_reproduce(EA_list):
     child_list = []
     for EA in EA_list:
-        mutated_EA = mutate(EA)
+        mutated_EA = __mutate(EA)
         child_list.append(mutated_EA)
 
     return child_list
@@ -16,7 +16,7 @@ def env_reproduce(EA_list):
 # 各プロパティをstep、最大値、最小値に基づきmutateさせる。
 # @param [env, agent] EA
 # @return [env, agent]
-def mutate(EA):
+def __mutate(EA):
     enviroments = EA[0]
     enviroments = to_number(enviroments)
     env_keys = list(enviroments.keys())

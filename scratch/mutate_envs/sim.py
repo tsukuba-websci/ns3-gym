@@ -6,6 +6,8 @@ from ns3gym import ns3env
 from tcp_base import TcpTimeBased
 from tcp_newreno import TcpNewReno
 
+# @param [env, agent] EA
+# @return integer スループット
 def simulate():
     parser = argparse.ArgumentParser(description='Start simulation script on/off')
     parser.add_argument('--start',
@@ -101,10 +103,3 @@ def get_agent(obs):
         get_agent.tcpAgents[socketUuid] = tcpAgent
 
     return tcpAgent
-
-
-
-
-
-if __name__ == "__main__":
-    main()
