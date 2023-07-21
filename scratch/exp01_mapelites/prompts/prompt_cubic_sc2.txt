@@ -1,9 +1,0 @@
-### Reference ###
-'''
-During Slow Start, CUBIC increases its window size using a cubic function that is more aggressive than other TCP congestion control algorithms. The cubic function is defined as:
-W_cubic(t) = C * (t - K)^3 + W_max
-where W_cubic(t) is the congestion window size at time t, C is a constant that determines the rate of increase, K is a constant that determines the start time of slow-start, and W_max is the maximum window size. This allows CUBIC to quickly ramp up its sending rate and fill large drop-tail buffers more quickly than Standard TCP.
-During Congestion Avoidance, CUBIC uses a concave region to adjust its window size based on network conditions. The concave function is defined as:
-W_cubic(t) = W_max * (1 - B * (t - T)^2)
-where B is a constant that determines the rate of decrease, T is the time when congestion was detected, and W_max is the maximum window size. This helps prevent congestion from occurring while still achieving high throughput.
-'''

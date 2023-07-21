@@ -1,5 +1,0 @@
-### Function ###
-def CUBIC_SlowStart_CongestionAvoidance_Algorithm(ssThresh: int, cWnd: int, segmentSize: int, segmentsAcked: int, bytesInFlight: int, RTT: int):
-    ''' Return new_cWnd and new_ssThresh '''
-    # Be careful not to increase the value of new_cWnd and new_ssThresh too much.
-    

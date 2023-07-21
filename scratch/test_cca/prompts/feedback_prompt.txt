@@ -1,1 +1,0 @@
-# Why do new_cWnd and new_ssThresh have large values and low average throughput when using this code? Please output this reasons in about 100 words. Let's Think step by step.
