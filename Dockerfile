@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y libzmq5 libzmq3-dev libprotobuf-dev pro
 # clone ns3-gym repo
 COPY . /ns3-gym
 
+
 # Change WORKDIR
 WORKDIR /ns3-gym
 

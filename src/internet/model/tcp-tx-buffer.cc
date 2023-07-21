@@ -31,6 +31,34 @@
 
 namespace ns3 {
 
+// hirose additional procedure
+#define NS_ASSERT_MSG_WITH_FUNC(condition, message, f, arg) \
+    do                                                      \
+    {                                                       \
+        if (!(condition))                                   \
+        {                                                   \
+            std::cerr << "assert failed. cond=\"" <<        \
+                # condition << "\", ";                      \
+            f(arg);                                         \
+            NS_FATAL_ERROR (message);                       \
+        }                                                   \
+    }                                                       \
+  while (false)
+
+#include <cstdio>
+#include <utility>
+
+#include <string>
+#include <stdexcept>
+
+void
+hirose_debug_function(std::pair<TcpTxItem*, TcpTxItem*> tx_item_pair)
+{
+    tx_item_pair.first->Print(std::cout << "\n");
+    tx_item_pair.second->Print(std::cout << "\n");
+    std::cout << "\n";
+}
+
 NS_LOG_COMPONENT_DEFINE ("TcpTxBuffer");
 
 void
@@ -323,7 +351,8 @@ TcpTxBuffer::GetTransmittedSegment (uint32_t numBytes, const SequenceNumber32 &s
           if (next != m_sentList.end ())
             {
               // Next is not sacked... there is the possibility to merge
-              if (! (*next)->m_sacked)
+              if ((! (*next)->m_sacked) && ((*it)->m_lost == (*next)->m_lost))
+                //if (! (*next)->m_sacked)
                 {
                   s = std::min(s, (*it)->m_packet->GetSize () + (*next)->m_packet->GetSize ());
                 }
@@ -562,7 +591,6 @@ TcpTxBuffer::GetPacketFromList (PacketList &list, const SequenceNumber32 &listSt
           // with the packet that follows, and recurse
           TcpTxItem *next = (*it); // Please remember we have incremented it
                                    // in the previous if
-
           MergeItems (currentItem, next);
           list.erase (it);
 
@@ -596,6 +624,31 @@ TcpTxBuffer::MergeItems (TcpTxItem *t1, TcpTxItem *t2) const
                  "Merging one sacked and another not sacked. Impossible");
   NS_ASSERT_MSG (AreEquals (t1->m_lost, t2->m_lost),
                  "Merging one lost and another not lost. Impossible");
+
+  //auto tx_item_pair = std::make_pair(t1, t2);
+  //NS_ASSERT_MSG_WITH_FUNC (AreEquals (t1->m_lost, t2->m_lost),
+  //                         "Merging one lost and another not lost. Impossible",
+  //                         hirose_debug_function,
+  //                         tx_item_pair
+  //                         );
+
+  // lostは消してretransに任せる
+  //if (! AreEquals (t1->m_lost, t2->m_lost))
+  //  {
+  //    if (t1->m_lost)
+  //      {
+  //        TcpTxBuffer *self = const_cast<TcpTxBuffer*> (this);
+  //        self->m_lostOut -= t1->m_packet->GetSize ();
+  //        t1->m_lost = false;
+  //      }
+  //    else
+  //      {
+  //        NS_ASSERT (t2->m_lost);
+  //        TcpTxBuffer *self = const_cast<TcpTxBuffer*> (this);
+  //        self->m_lostOut -= t2->m_packet->GetSize ();
+  //        t2->m_lost = false;
+  //      }
+  //  }
 
   // If one is retrans and the other is not, cancel the retransmitted flag.
   // We are merging this segment for the retransmit, so the count will
